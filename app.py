@@ -18,7 +18,6 @@ class Todo(db.Model):
 def index():
     #show all todos
     todo_list = Todo.query.all()
-    print(todo_list)
     return render_template("base.html", todo_list=todo_list)
 
 @app.route("/add", methods=["POST"])
