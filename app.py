@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -13,6 +13,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=False, nullable=False)
     complete = db.Column(db.Boolean, default=False, nullable=False)
+    created_on = db.Column(db.String(50))
 
 @app.route("/")
 def index():
@@ -23,8 +24,9 @@ def index():
 @app.route("/add", methods=["POST"])
 def add():
     #add new item
+    time_now = datetime.now()
     title=request.form.get("title")
-    new_todo=Todo(title=title, complete=False)
+    new_todo=Todo(title=title, complete=False, created_on = time_now.strftime("%d.%m.%Y at %H:%M"))
     db.session.add(new_todo)
     db.session.commit()
     return redirect(url_for("index"))

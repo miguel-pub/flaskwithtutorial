@@ -29,6 +29,10 @@
         .task-item {
             margin-bottom: 10px;
         }
+        .ui.tag.label {
+            margin-top: 10px;
+            margin-right: 2px;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +62,8 @@
                             <div class="six wide right aligned column">
                                 <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
                                 <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+                                <br>
+                                <a class="ui tag label">Created on {{ todo.created_on }}</a>
                             </div>
                         </div>
                     </div>
