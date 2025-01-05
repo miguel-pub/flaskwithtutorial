@@ -3,29 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>To do app</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+    <style>
+        body {
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+        .ui.container {
+            width: 50%
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 200px;
+        }
+        .ui.card {
+
+            width: 100%;
+        }
+        .form-action {
+            margin-top: 10px;
+        }
+        .task-item {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>ToDo App!</h1>
-    <form action="/add" method="POST">
-        <div>
-            <label>Todo Title</label>
-            <input type="text" name="title" placeholder="Enter Todo...">
-            <br>
-            <button type="submit">Add</button>
+    <div class="ui container">
+        <h1 class="ui center aligned header">ToDo App!</h1>
+        <div class="ui card">
+            <div class="content">
+                <h2 class="ui header">Task List</h2>
+                <form class="ui form form-action" action="/add" method="POST">
+                    <div class="ui action input">
+                        <input type="text" name="title" placeholder="Add new entry...">
+                        <button class="ui button">Add!</button>
+                    </div>
+                </form>
+                <div class="ui dividing header"></div>
+                {% for todo in todo_list %}
+                    <div class="ui segment task-item">
+                        <div class="ui two column stackable grid">
+                            <div class="ten wide column">
+                                <p class="ui medium header">{{ todo.title }}</p>
+                                {% if todo.complete == False %}
+                                    <span class="ui gray label">Not Completed</span>
+                                {% else %}
+                                    <span class="ui green label">Completed</span>
+                                {% endif %}
+                            </div>
+                            <div class="six wide right aligned column">
+                                <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
+                                <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </form>
-    {%for todo in todo_list%}
-        <p>{{ todo.id }} | {{todo.title }} | {{todo.complete}}</p>
-
-        {%if todo.complete == False%}
-            <span>Not Completed</span>
-        {%else%}
-            <span>Completed</span>
-        {%endif%}
-
-    <a href="/">Update</a>
-    <a href="/">Delete</a>
-    {%endfor%}
-
+    </div>
 </body>
 </html>
